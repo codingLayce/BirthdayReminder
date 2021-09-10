@@ -1,5 +1,4 @@
 import 'package:birthday_app/models/birthday.dart';
-import 'package:birthday_app/services/database.dart';
 
 class BirthdayManager {
   static final BirthdayManager _instance = BirthdayManager._internal();
@@ -10,16 +9,10 @@ class BirthdayManager {
 
   List<Birthday> _birthdays = [];
 
-  Future<void> loadBirthdays() async {
-    _birthdays = await Database().birthdays();
-    print(_birthdays);
-  }
-
   bool registerBirthday(String person, DateTime date) {
     if (exists(person)) return false;
     Birthday birthday = Birthday(person: person, date: date);
     _birthdays.add(birthday);
-    Database().insertBirthday(birthday);
     return true;
   }
 
@@ -54,7 +47,6 @@ class BirthdayManager {
 
   void removeBirthday(String person) {
     _birthdays.removeWhere((birthday) => birthday.person == person);
-    Database().deleteBirthday(person);
   }
 
   BirthdayManager._internal();

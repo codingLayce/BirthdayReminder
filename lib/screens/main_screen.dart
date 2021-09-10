@@ -13,20 +13,6 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreen extends State<MainScreen> {
   DateTime selectedDate = DateTime.fromMillisecondsSinceEpoch(0);
-  bool loading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    load();
-  }
-
-  void load() async {
-    await BirthdayManager().loadBirthdays();
-    setState(() {
-      loading = false;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
