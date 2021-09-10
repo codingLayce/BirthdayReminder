@@ -36,13 +36,11 @@ class _MainScreen extends State<MainScreen> {
         body: Container(
             width: double.infinity,
             margin: EdgeInsets.all(15),
-            child: this.loading
-                ? CircularProgressIndicator()
-                : SingleChildScrollView(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: _getBirthdayWidgets()))),
+            child: SingleChildScrollView(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: _getBirthdayWidgets()))),
         floatingActionButton: FloatingActionButton(
           backgroundColor: AppColors.peterRiverColor,
           foregroundColor: Colors.white,
