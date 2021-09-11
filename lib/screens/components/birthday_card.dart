@@ -32,34 +32,6 @@ class _BirthdayCard extends State<BirthdayCard> {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedSwitcher(
-        duration: Duration(milliseconds: 600),
-        child: this.extended ? _buildExtended() : _buildNotExtended());
-  }
-
-  Widget _buildNotExtended() {
-    return Container(
-        width: double.infinity,
-        margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
-        decoration: BoxDecoration(color: widget.color),
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [_getPerson(context), Divider(), _getDate()]));
-  }
-
-  Widget _buildExtended() {
-    return Container(
-        width: double.infinity,
-        margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
-        decoration: BoxDecoration(color: widget.color),
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [_getPerson(context), Divider(), _getDate(), _getAge()]));
-  }
-
-  Widget _getPerson(BuildContext context) {
     return InkWell(
         onTap: () => setState(() {
               this.extended = !this.extended;
@@ -71,15 +43,41 @@ class _BirthdayCard extends State<BirthdayCard> {
                     return _getConfirmDeleteDialog(context);
                   })
             },
-        child: Container(
-            width: double.infinity,
-            child: Text(widget.person,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontFamily: "Roboto",
-                    fontSize: 22,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.amethystColor))));
+        child: this.extended ? _buildExtended() : _buildNotExtended());
+  }
+
+  Widget _buildNotExtended() {
+    return Container(
+        width: double.infinity,
+        margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
+        decoration: BoxDecoration(color: widget.color),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [_getPerson(), Divider(), _getDate()]));
+  }
+
+  Widget _buildExtended() {
+    return Container(
+        width: double.infinity,
+        margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
+        decoration: BoxDecoration(color: widget.color),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [_getPerson(), Divider(), _getDate(), _getAge()]));
+  }
+
+  Widget _getPerson() {
+    return Container(
+        width: double.infinity,
+        child: Text(widget.person,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontFamily: "Roboto",
+                fontSize: 22,
+                fontWeight: FontWeight.w700,
+                color: AppColors.amethystColor)));
   }
 
   Widget _getConfirmDeleteDialog(BuildContext context) {
