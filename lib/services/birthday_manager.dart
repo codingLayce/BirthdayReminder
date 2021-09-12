@@ -1,5 +1,6 @@
 import 'package:birthday_app/models/birthday.dart';
 import 'package:birthday_app/services/storage.dart';
+import 'package:birthday_app/services/notifications.dart';
 
 class BirthdayManager {
   static final BirthdayManager _instance = BirthdayManager._internal();
@@ -18,8 +19,12 @@ class BirthdayManager {
   bool registerBirthday(String person, DateTime date) {
     if (exists(person)) return false;
 
-    _birthdays.add(Birthday(person: person, date: date));
+    var birthday = Birthday(person: person, date: date);
+
+    _birthdays.add(birthday);
     Storage().writeBirthdays(_birthdays);
+
+    Notifications.scheduleBirthdayNotification(birthday);
 
     return true;
   }

@@ -4,11 +4,23 @@ class Utils {
 
     int age = today.year - birthday.year;
 
-    if (today.month < birthday.month)
-      --age;
-    else if (today.day < birthday.day) --age;
+    if (birthday.isAfter(today)) --age;
 
     return age;
+  }
+
+  static DateTime nextBirthdayDate(DateTime birthday) {
+    DateTime today = DateTime.now();
+    DateTime next = DateTime(today.year, birthday.month, birthday.day);
+
+    if (today.month > birthday.month ||
+        (today.month == birthday.month && today.day > birthday.day))
+      next = DateTime(today.year + 1, birthday.month, birthday.day);
+
+    if (today.month == birthday.month && today.day == birthday.day)
+      next = DateTime.now().add(const Duration(minutes: 1));
+
+    return next;
   }
 
   static int nextAge(DateTime birthday) {

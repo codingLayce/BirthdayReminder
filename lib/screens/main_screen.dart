@@ -4,6 +4,7 @@ import 'package:birthday_app/models/birthday.dart';
 import 'package:birthday_app/screens/components/birthday_card.dart';
 import 'package:birthday_app/screens/components/birthday_dialog.dart';
 import 'package:birthday_app/services/birthday_manager.dart';
+import 'package:birthday_app/services/notifications.dart';
 import 'package:flutter/material.dart';
 
 class MainScreen extends StatefulWidget {
@@ -18,6 +19,9 @@ class _MainScreen extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
+
+    Notifications.initNotifications();
+
     loadBirthdays();
   }
 

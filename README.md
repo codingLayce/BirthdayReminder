@@ -3,6 +3,5 @@
 Application that will help you remember birthdays.
 
 # TODO
-- Change the way I store data (from database to key-value because easier and not a lot of data in stored).
-- Add notification
+- Make sure you can send multiple notifications. If not, store the notifications id in the storage system in order to always set a new one.
 - Show the next birthday with cool features
