@@ -1,4 +1,5 @@
 import 'package:birthday_app/models/birthday.dart';
+import 'package:birthday_app/services/storage.dart';
 
 class BirthdayManager {
   static final BirthdayManager _instance = BirthdayManager._internal();
@@ -9,10 +10,17 @@ class BirthdayManager {
 
   List<Birthday> _birthdays = [];
 
+  Future<bool> loadBirthdays() async {
+    _birthdays = await Storage().readBirthdays();
+    return Future.value(true);
+  }
+
   bool registerBirthday(String person, DateTime date) {
     if (exists(person)) return false;
-    Birthday birthday = Birthday(person: person, date: date);
-    _birthdays.add(birthday);
+
+    _birthdays.add(Birthday(person: person, date: date));
+    Storage().writeBirthdays(_birthdays);
+
     return true;
   }
 
@@ -47,6 +55,7 @@ class BirthdayManager {
 
   void removeBirthday(String person) {
     _birthdays.removeWhere((birthday) => birthday.person == person);
+    Storage().writeBirthdays(_birthdays);
   }
 
   BirthdayManager._internal();

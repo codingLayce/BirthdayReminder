@@ -4,12 +4,12 @@ class Birthday {
 
   Birthday({required this.person, required this.date});
 
-  Map<String, dynamic> toMap() {
-    return {
-      'person': person,
-      'day': date.day,
-      'month': date.month,
-      'year': date.year
-    };
+  factory Birthday.fromJson(dynamic json) {
+    return Birthday(
+        person: json['person'] as String, date: DateTime.parse(json['date']));
+  }
+
+  Map toJson() {
+    return {'person': person, 'date': date.toIso8601String()};
   }
 }

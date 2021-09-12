@@ -13,35 +13,69 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreen extends State<MainScreen> {
   DateTime selectedDate = DateTime.fromMillisecondsSinceEpoch(0);
+  bool loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    loadBirthdays();
+  }
+
+  void loadBirthdays() async {
+    BirthdayManager().loadBirthdays().then((value) {
+      setState(() {
+        this.loading = false;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: AppColors.wetAsphaltMColor,
         appBar: AppBar(title: const Text("Rappel d'anniversaire")),
-        body: Container(
-            width: double.infinity,
-            margin: EdgeInsets.all(15),
-            child: SingleChildScrollView(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: _getBirthdayWidgets()))),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: AppColors.peterRiverColor,
-          foregroundColor: Colors.white,
-          onPressed: () => showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return BirthdayDialog((person, date) {
-                  BirthdayManager().registerBirthday(person, date);
-                  setState(() {});
-                  Navigator.pop(context);
-                });
-              }),
-          tooltip: 'Enregistrer un anniversaire',
-          child: const Icon(Icons.add),
-        ));
+        body: this.loading ? _getLoadingWidget() : _getContentWidget(),
+        floatingActionButton: _getFloatingActionButton());
+  }
+
+  Widget _getContentWidget() {
+    return Container(
+        width: double.infinity,
+        margin: EdgeInsets.all(15),
+        child: SingleChildScrollView(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: _getBirthdayWidgets())));
+  }
+
+  Widget _getLoadingWidget() {
+    return Center(
+        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      CircularProgressIndicator(),
+      SizedBox(width: 10),
+      Text("Chargement des anniversaires...",
+          style: TextStyle(
+              fontFamily: "Roboto", fontSize: 16, color: Colors.white))
+    ]));
+  }
+
+  FloatingActionButton _getFloatingActionButton() {
+    return FloatingActionButton(
+      backgroundColor: AppColors.peterRiverColor,
+      foregroundColor: Colors.white,
+      onPressed: () => showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return BirthdayDialog((person, date) {
+              BirthdayManager().registerBirthday(person, date);
+              setState(() {});
+              Navigator.pop(context);
+            });
+          }),
+      tooltip: 'Enregistrer un anniversaire',
+      child: const Icon(Icons.add),
+    );
   }
 
   List<Widget> _getBirthdayWidgets() {
