@@ -112,6 +112,6 @@ class AppColors {
   static var cloudsColor = cloudsMColor.shade900;
   static var wetAsphaltColor = wetAsphaltMColor.shade900;
   static var amethystColor = amethystMColor.shade900;
-  static var concreteColor = concreteMColor.shade900;
+  static var concreteColor = concreteMColor.shade200;
   static var asbestosColor = Color.fromRGBO(127, 140, 141, 1.0);
 }

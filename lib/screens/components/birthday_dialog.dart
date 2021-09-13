@@ -16,34 +16,60 @@ class _BirthdayDialog extends State<BirthdayDialog> {
   DateTime selectedDate = DateTime.fromMillisecondsSinceEpoch(0);
   TextEditingController controller = TextEditingController();
   var error = "";
+  TextStyle labelStyle = TextStyle(
+      fontFamily: "Roboto",
+      fontSize: 14,
+      fontWeight: FontWeight.w700,
+      color: Color.fromRGBO(0, 0, 0, 0.6));
   TextStyle style = TextStyle(
       fontFamily: "Roboto",
       fontSize: 16,
       fontWeight: FontWeight.w700,
-      color: Colors.black);
+      color: Color.fromRGBO(0, 0, 0, 0.6));
 
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
         title: Text("Nouvel anniversaire"),
-        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 20.0),
-        titlePadding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
+        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+        titlePadding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 10.0),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         elevation: 0,
         backgroundColor: AppColors.cloudsColor,
-        children: [Center(child: _content(context))]);
+        children: [_content(context)]);
   }
 
   _content(context) {
+    return Wrap(runSpacing: 5.0, children: [
+      Flex(direction: Axis.horizontal, children: [
+        Expanded(flex: 8, child: _getPersonLabel()),
+        Expanded(flex: 1, child: SizedBox()),
+        Expanded(flex: 16, child: _getPersonField())
+      ]),
+      Flex(direction: Axis.horizontal, children: [
+        Expanded(flex: 8, child: _getDateLabel()),
+        Expanded(flex: 1, child: SizedBox()),
+        Expanded(flex: 16, child: _getDateField())
+      ]),
+      Row(children: [Expanded(child: _getErrorField())]),
+      Row(children: [Expanded(child: _getRegisterButton())])
+    ]);
+  }
+
+  _getPersonLabel() {
     return Container(
-        padding: EdgeInsets.all(10),
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          _getPersonField(),
-          SizedBox(height: 10),
-          _getDateField(),
-          _getRegisterButton(),
-          _getErrorField()
-        ]));
+        height: 50,
+        padding: EdgeInsets.all(5),
+        decoration: BoxDecoration(color: AppColors.concreteColor),
+        child: Center(child: Text("Personne", style: labelStyle)));
+  }
+
+  _getDateLabel() {
+    return Container(
+        height: 50,
+        padding: EdgeInsets.all(5),
+        decoration: BoxDecoration(color: AppColors.concreteColor),
+        child: Center(child: Text("Date", style: labelStyle)));
   }
 
   _getDateField() {
@@ -51,27 +77,26 @@ class _BirthdayDialog extends State<BirthdayDialog> {
         onTap: () {
           _selectDate(context);
         },
-        child: Row(children: [
-          Text("Date:", style: style),
-          Expanded(
-              child: Container(
-                  margin: EdgeInsets.only(left: 5),
-                  decoration: BoxDecoration(
-                      color: Colors.transparent,
-                      border: Border.all(color: Colors.black)),
-                  child: this.selectedDate ==
-                          DateTime.fromMillisecondsSinceEpoch(0)
-                      ? Text("Aucune date",
-                          style: style, textAlign: TextAlign.center)
-                      : Text(
-                          "${this.selectedDate.day}/${this.selectedDate.month}/${this.selectedDate.year}",
-                          style: style,
-                          textAlign: TextAlign.center)))
-        ]));
+        child: Container(
+            height: 50,
+            padding: EdgeInsets.all(5),
+            decoration: BoxDecoration(
+                border:
+                    Border.all(color: AppColors.wetAsphaltColor, width: 2.0)),
+            child: this.selectedDate == DateTime.fromMillisecondsSinceEpoch(0)
+                ? Align(
+                    child: Text("Aucune date", style: style),
+                    alignment: Alignment.centerLeft)
+                : Align(
+                    child: Text(
+                        "${this.selectedDate.day}/${this.selectedDate.month}/${this.selectedDate.year}",
+                        style: style),
+                    alignment: Alignment.centerLeft)));
   }
 
   _getErrorField() {
     return Text(error,
+        textAlign: TextAlign.center,
         style: TextStyle(
             fontFamily: "Roboto",
             fontSize: 16,
@@ -102,28 +127,33 @@ class _BirthdayDialog extends State<BirthdayDialog> {
                 fontFamily: "Roboto",
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
-                color: AppColors.turquoiseColor)));
+                color: AppColors.peterRiverColor)));
   }
 
   _getPersonField() {
-    return TextFormField(
-        textAlignVertical: TextAlignVertical.center,
-        style: style,
-        cursorColor: Colors.black,
-        autofocus: false,
-        cursorHeight: 20.0,
-        cursorWidth: 1.0,
-        decoration: InputDecoration(
-            enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.zero,
-                borderSide:
-                    BorderSide(color: AppColors.wetAsphaltColor, width: 2.0)),
-            focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.zero,
-                borderSide:
-                    BorderSide(color: AppColors.peterRiverColor, width: 2.0)),
-            hintText: "Personne"),
-        controller: this.controller);
+    return Container(
+        height: 50,
+        child: Center(
+            child: TextFormField(
+                textAlignVertical: TextAlignVertical.center,
+                style: style,
+                cursorColor: Colors.black,
+                autofocus: false,
+                cursorHeight: 20.0,
+                cursorWidth: 1.0,
+                decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: -5, horizontal: 5),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.zero,
+                        borderSide: BorderSide(
+                            color: AppColors.wetAsphaltColor, width: 2.0)),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.zero,
+                        borderSide: BorderSide(
+                            color: AppColors.peterRiverColor, width: 2.0)),
+                    hintText: "Personne"),
+                controller: this.controller)));
   }
 
   _selectDate(BuildContext context) async {
@@ -141,9 +171,10 @@ class _BirthdayDialog extends State<BirthdayDialog> {
           return Theme(
             data: ThemeData.dark().copyWith(
                 colorScheme: ColorScheme.dark(
-                    primary: AppColors.turquoiseColor,
-                    surface: AppColors.cloudsMColor[100]!),
-                dialogBackgroundColor: AppColors.asbestosColor),
+                    primary: AppColors.peterRiverColor,
+                    surface: AppColors.cloudsMColor[100]!,
+                    onSurface: Color.fromRGBO(0, 0, 0, 0.6)),
+                dialogBackgroundColor: Color.fromRGBO(243, 242, 239, 1.0)),
             child: child!,
           );
         });
