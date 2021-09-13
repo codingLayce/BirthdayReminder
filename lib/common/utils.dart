@@ -9,6 +9,12 @@ class Utils {
     return age;
   }
 
+  static int daysAwayFromToday(DateTime birthday) {
+    DateTime today = DateTime.now();
+    DateTime date = nextBirthdayDate(birthday);
+    return date.difference(today).inDays;
+  }
+
   static DateTime nextBirthdayDate(DateTime birthday) {
     DateTime today = DateTime.now();
     DateTime next = DateTime(today.year, birthday.month, birthday.day);
@@ -18,7 +24,8 @@ class Utils {
       next = DateTime(today.year + 1, birthday.month, birthday.day);
 
     if (today.month == birthday.month && today.day == birthday.day)
-      next = DateTime.now().add(const Duration(minutes: 1));
+      next = DateTime.now()
+          .add(const Duration(seconds: 10)); // TODO change to minutes: 1
 
     return next;
   }

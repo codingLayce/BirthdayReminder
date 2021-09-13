@@ -36,7 +36,7 @@ class _MainScreen extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AppColors.wetAsphaltMColor,
+        backgroundColor: Color.fromRGBO(243, 242, 239, 1.0),
         appBar: AppBar(title: const Text("Rappel d'anniversaire")),
         body: this.loading ? _getLoadingWidget() : _getContentWidget(),
         floatingActionButton: _getFloatingActionButton());
@@ -86,7 +86,6 @@ class _MainScreen extends State<MainScreen> {
     List<Widget> widgets = [];
     List<String> persons = BirthdayManager().getPersons();
     int previousMonth = -1;
-    int index = 0;
 
     persons.forEach((person) {
       Birthday birthday = BirthdayManager().getBirthday(person);
@@ -100,15 +99,12 @@ class _MainScreen extends State<MainScreen> {
                     fontFamily: "Roboto", fontSize: 14, color: Colors.grey))));
       }
 
-      widgets.add(BirthdayCard(person, birthday.date,
-          index % 2 == 0 ? AppColors.concreteColor : AppColors.asbestosColor,
-          (person) {
+      widgets.add(BirthdayCard(person, birthday.date, (person) {
         BirthdayManager().removeBirthday(person);
         setState(() {});
       }));
 
       previousMonth = birthday.date.month;
-      ++index;
     });
 
     return widgets;

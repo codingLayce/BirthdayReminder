@@ -19,7 +19,7 @@ class BirthdayManager {
   bool registerBirthday(String person, DateTime date) {
     if (exists(person)) return false;
 
-    var birthday = Birthday(person: person, date: date);
+    var birthday = Birthday(id: _getNextID(), person: person, date: date);
 
     _birthdays.add(birthday);
     Storage().writeBirthdays(_birthdays);
@@ -30,18 +30,9 @@ class BirthdayManager {
   }
 
   List<String> getPersons() {
-    List<String> sortedPersons = [];
-    int current = DateTime.now().month;
+    _birthdays.sort((a, b) => a.compareTo(b));
 
-    do {
-      _birthdays.forEach((birthday) {
-        if (birthday.date.month == current) sortedPersons.add(birthday.person);
-      });
-      current = current + 1;
-      if (current > 12) current = 1;
-    } while (current != DateTime.now().month);
-
-    return sortedPersons;
+    return _birthdays.map((e) => e.person).toList();
   }
 
   bool exists(String person) {
@@ -59,8 +50,19 @@ class BirthdayManager {
   }
 
   void removeBirthday(String person) {
+    Notifications.removeNotification(getBirthday(person).id);
     _birthdays.removeWhere((birthday) => birthday.person == person);
     Storage().writeBirthdays(_birthdays);
+  }
+
+  int _getNextID() {
+    int id = -1;
+
+    _birthdays.forEach((birthday) {
+      if (birthday.id > id) id = birthday.id;
+    });
+
+    return id + 1;
   }
 
   BirthdayManager._internal();

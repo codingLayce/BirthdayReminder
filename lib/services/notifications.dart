@@ -36,7 +36,7 @@ class Notifications {
 
   static void scheduleBirthdayNotification(Birthday birthday) async {
     await notifications.zonedSchedule(
-        0,
+        birthday.id,
         'Rappel Anniversaire de ${birthday.person}',
         "C'est bientôt l'anniversaire de ${birthday.person} ! Ce sera ses ${Utils.nextAge(birthday.date)} ans ! Penses à lui souhaiter ;)",
         tz.TZDateTime.from(Utils.nextBirthdayDate(birthday.date), tz.local),
@@ -48,12 +48,7 @@ class Notifications {
             UILocalNotificationDateInterpretation.absoluteTime);
   }
 
-  static void displayPendingNotifications() async {
-    print("ok");
-    final List<PendingNotificationRequest> requests =
-        await notifications.pendingNotificationRequests();
-    requests.forEach((request) {
-      print("${request.title} : ${request.body}");
-    });
+  static void removeNotification(int id) async {
+    notifications.cancel(id);
   }
 }

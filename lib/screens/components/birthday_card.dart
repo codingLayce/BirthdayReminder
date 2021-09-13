@@ -7,10 +7,9 @@ typedef void OnRemoveFunc(String person);
 class BirthdayCard extends StatefulWidget {
   final String person;
   final DateTime date;
-  final Color color;
   final OnRemoveFunc callback;
 
-  BirthdayCard(this.person, this.date, this.color, this.callback);
+  BirthdayCard(this.person, this.date, this.callback);
 
   @override
   State createState() => _BirthdayCard();
@@ -22,13 +21,13 @@ class _BirthdayCard extends State<BirthdayCard> {
       fontFamily: "Roboto",
       fontSize: 16,
       fontWeight: FontWeight.w400,
-      color: Colors.white);
+      color: Color.fromRGBO(0, 0, 0, 0.6));
 
   TextStyle styleMore = TextStyle(
       fontFamily: "Roboto",
       fontSize: 16,
       fontWeight: FontWeight.w700,
-      color: Colors.deepPurple);
+      color: Color.fromRGBO(0, 0, 0, 0.6));
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +49,10 @@ class _BirthdayCard extends State<BirthdayCard> {
     return Container(
         width: double.infinity,
         margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
-        decoration: BoxDecoration(color: widget.color),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(5),
+            border: Border.all(color: Color.fromRGBO(0, 0, 0, 0.6))),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -61,7 +63,10 @@ class _BirthdayCard extends State<BirthdayCard> {
     return Container(
         width: double.infinity,
         margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
-        decoration: BoxDecoration(color: widget.color),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(5),
+            border: Border.all(color: Color.fromRGBO(0, 0, 0, 0.6))),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -77,7 +82,7 @@ class _BirthdayCard extends State<BirthdayCard> {
                 fontFamily: "Roboto",
                 fontSize: 22,
                 fontWeight: FontWeight.w700,
-                color: AppColors.amethystColor)));
+                color: AppColors.peterRiverColor)));
   }
 
   Widget _getConfirmDeleteDialog(BuildContext context) {

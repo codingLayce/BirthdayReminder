@@ -1,13 +1,11 @@
+import 'package:birthday_app/common/utils.dart';
+
 class Birthday {
-  int id;
+  final int id;
   final String person;
   final DateTime date;
 
-  Birthday({required this.person, required this.date, this.id = -1});
-
-  void setID(int id) {
-    this.id = id;
-  }
+  Birthday({required this.person, required this.date, required this.id});
 
   factory Birthday.fromJson(dynamic json) {
     return Birthday(
@@ -18,5 +16,17 @@ class Birthday {
 
   Map toJson() {
     return {'id': id, 'person': person, 'date': date.toIso8601String()};
+  }
+
+  int compareTo(Birthday other) {
+    int a = Utils.daysAwayFromToday(this.date);
+    int b = Utils.daysAwayFromToday(other.date);
+
+    return a.compareTo(b);
+  }
+
+  @override
+  String toString() {
+    return "$id $person ${date.toIso8601String()}";
   }
 }
