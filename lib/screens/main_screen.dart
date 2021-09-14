@@ -56,11 +56,13 @@ class _MainScreen extends State<MainScreen> {
   Widget _getLoadingWidget() {
     return Center(
         child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-      CircularProgressIndicator(),
+      CircularProgressIndicator(color: Color.fromRGBO(0, 0, 0, 0.6)),
       SizedBox(width: 10),
       Text("Chargement des anniversaires...",
           style: TextStyle(
-              fontFamily: "Roboto", fontSize: 16, color: Colors.white))
+              fontFamily: "Roboto",
+              fontSize: 16,
+              color: Color.fromRGBO(0, 0, 0, 0.6)))
     ]));
   }
 
